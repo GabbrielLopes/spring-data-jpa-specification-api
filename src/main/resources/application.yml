@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: jpa-specification-api
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url:  jdbc:mysql://localhost:3306/jpa_specification_db?useTimezone=true&serverTimezone=UTC
+    username: admin
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+      show_sql: true
+
