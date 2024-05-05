@@ -1,14 +1,12 @@
 package com.gabbriellps.jpa.specification.api.controller;
 
+import com.gabbriellps.jpa.specification.api.dto.request.FilterRequestDTO;
 import com.gabbriellps.jpa.specification.api.model.Company;
 import com.gabbriellps.jpa.specification.api.service.interfaces.CompanyService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +31,14 @@ public class CompanyController {
 
         return ResponseEntity.status(HttpStatus.OK).body(companyService.findCompanyLikeRaizCnpj(raizCnpj));
     }
-    
+
+    @PostMapping("/company/specification")
+    public ResponseEntity<List<Company>> findCompanyDynamicSpecification(
+            @RequestBody FilterRequestDTO requestDTO) {
+        // Nesse modelo de query abrimos uma exceção para fazer consultas com request method Post e Request Body
+        // para passar os parametros da query dinamica
+        return ResponseEntity.status(HttpStatus.OK).body(companyService.findCompanyDynamicSpecification(requestDTO));
+    }
+
 
 }

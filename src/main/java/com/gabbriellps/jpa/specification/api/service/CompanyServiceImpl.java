@@ -1,5 +1,6 @@
 package com.gabbriellps.jpa.specification.api.service;
 
+import com.gabbriellps.jpa.specification.api.dto.request.FilterRequestDTO;
 import com.gabbriellps.jpa.specification.api.model.Company;
 import com.gabbriellps.jpa.specification.api.repository.CompanyRepository;
 import com.gabbriellps.jpa.specification.api.service.interfaces.CompanyService;
@@ -42,6 +43,11 @@ public class CompanyServiceImpl implements CompanyService {
         };
 
         return repository.findAll(specification);
+    }
+
+    @Override
+    public List<Company> findCompanyDynamicSpecification(FilterRequestDTO requestDTO) {
+        return repository.findAll(DynamicSpecifications.searchFilters(requestDTO.getSearchRequestDTO()));
     }
 
 
