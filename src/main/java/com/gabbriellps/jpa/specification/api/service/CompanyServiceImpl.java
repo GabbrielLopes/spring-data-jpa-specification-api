@@ -20,12 +20,12 @@ public class CompanyServiceImpl implements CompanyService {
     private final transient CompanyRepository repository;
 
     @Override
-    public List<Company> findByName() {
+    public List<Company> findByName(String nomeEmpresa) {
         Specification<Company> specification = new Specification<Company>() {
 
             @Override
             public Predicate toPredicate(Root<Company> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.equal(root.get("NOME"), "empresa");
+                return criteriaBuilder.equal(root.get("nomeGuerra"), nomeEmpresa);
             }
         };
 

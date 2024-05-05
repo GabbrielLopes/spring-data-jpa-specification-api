@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface CompanyService {
 
-    List<Company> findByName();
+    List<Company> findByName(String nomeEmpresa);
 
 }
