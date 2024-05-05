@@ -1,25 +1,33 @@
 package com.gabbriellps.jpa.specification.api.service;
 
 import com.gabbriellps.jpa.specification.api.dto.request.SearchRequestDTO;
-import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
+
+import java.util.List;
 
 
 public class DynamicSpecifications {
 
-    public static <T> Specification<T> searchFilters(final SearchRequestDTO filter) {
-        return bySearchFilter(filter);
+    public static <T> Specification<T> searchFilters(final List<SearchRequestDTO> filters) {
+        return bySearchFilter(filters);
     }
 
-    public static <T> Specification<T> bySearchFilter(final SearchRequestDTO filter) {
-        return new Specification<T>() {
-            @Override
-            public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+    public static <T> Specification<T> bySearchFilter(final List<SearchRequestDTO> filters) {
+        return (root, query, criteriaBuilder) -> {
+
+            List<Predicate> predicates = filters.stream().map(filter -> {
 
                 Path<T> columnName = buildColumnsEmbedded(filter, root);
 
-                return buildPredicate(filter, builder, columnName);
-            }
+                return buildPredicate(filter, criteriaBuilder, columnName);
+
+            }).toList();
+
+            return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
         };
     }
 
@@ -39,7 +47,7 @@ public class DynamicSpecifications {
     private static Predicate buildPredicate(SearchRequestDTO filter, CriteriaBuilder builder, Path columnName) {
         // Monta o predicado de acordo com o filtro passado via parametro
         return switch (filter.getOperator()) {
-            case IGUAL -> builder.equal(builder.lower(builder.toString(columnName)), filter.getValue().toLowerCase());
+            case IGUAL -> builder.equal(columnName, filter.getValue().toLowerCase());
             case MAIOR ->
                     builder.greaterThan(builder.lower(builder.toString(columnName)), (Comparable) filter.getValue().toLowerCase());
             case MENOR ->

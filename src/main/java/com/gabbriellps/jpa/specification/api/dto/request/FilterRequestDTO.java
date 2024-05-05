@@ -5,12 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class FilterRequestDTO {
 
-    private SearchRequestDTO searchRequestDTO;
+    private List<SearchRequestDTO> searchRequestDTO;
 
 }
