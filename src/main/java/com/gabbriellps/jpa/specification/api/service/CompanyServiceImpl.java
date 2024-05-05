@@ -20,7 +20,7 @@ public class CompanyServiceImpl implements CompanyService {
     private final transient CompanyRepository repository;
 
     @Override
-    public List<Company> findByName(String nomeEmpresa) {
+    public List<Company> findByRaizCnpj(String nomeEmpresa) {
         Specification<Company> specification = new Specification<Company>() {
 
             @Override
@@ -31,4 +31,18 @@ public class CompanyServiceImpl implements CompanyService {
 
         return repository.findAll(specification);
     }
+
+    @Override
+    public List<Company> findCompanyLikeRaizCnpj(Integer raizCnpj) {
+        Specification<Company> specification = new Specification<Company>() {
+            @Override
+            public Predicate toPredicate(Root<Company> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.like(root.get("id").get("raizCnpj").as(String.class), "%".concat(raizCnpj.toString()).concat("%"));
+            }
+        };
+
+        return repository.findAll(specification);
+    }
+
+
 }

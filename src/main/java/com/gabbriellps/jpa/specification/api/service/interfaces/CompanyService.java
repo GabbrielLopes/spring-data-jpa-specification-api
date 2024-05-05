@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface CompanyService {
 
-    List<Company> findByName(String nomeEmpresa);
+    List<Company> findByRaizCnpj(String nomeEmpresa);
+
+    List<Company> findCompanyLikeRaizCnpj(Integer raizCnpj);
 
 }
