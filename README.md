@@ -35,11 +35,18 @@ Suba a aplicação e já poderemos testar
 curl --location 'localhost:8080/v1/company/specification' \
 --header 'Content-Type: application/json' \
 --data '{
-    "searchRequestDTO": {
-        "columnName": "nomeGuerra",
-        "value": "facebook",
-        "operator": "CONTEM"
-    }
+    "searchRequestDTO": [
+        {
+            "columnName": "nomeGuerra",
+            "value": "facebook inc.",
+            "operator": "IGUAL"
+        },
+        {
+            "columnName": "telefone",
+            "value": "41235875573",
+            "operator": "IGUAL"
+        }
+    ]
 }'
 ```
 
