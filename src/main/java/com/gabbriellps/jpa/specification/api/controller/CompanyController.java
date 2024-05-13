@@ -4,6 +4,9 @@ import com.gabbriellps.jpa.specification.api.dto.request.FilterRequestDTO;
 import com.gabbriellps.jpa.specification.api.model.Company;
 import com.gabbriellps.jpa.specification.api.service.interfaces.CompanyService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +41,14 @@ public class CompanyController {
         // Nesse modelo de query abrimos uma exceção para fazer consultas com request method Post e Request Body
         // para passar os parametros da query dinamica
         return ResponseEntity.status(HttpStatus.OK).body(companyService.findCompanyDynamicSpecification(requestDTO));
+    }
+
+    @PostMapping("/company/specification/page")
+    public ResponseEntity<Page<Company>> findCompanyDynamicSpecificationPagination(
+            @RequestBody FilterRequestDTO requestDTO,
+            @PageableDefault(page = 0, size = 5) Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(companyService.findCompanyDynamicSpecificationPaginado(requestDTO, pageable));
     }
 
 

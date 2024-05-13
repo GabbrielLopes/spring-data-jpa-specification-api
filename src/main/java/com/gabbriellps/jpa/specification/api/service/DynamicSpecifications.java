@@ -49,21 +49,21 @@ public class DynamicSpecifications {
         return switch (filter.getOperator()) {
             case IGUAL -> builder.equal(columnName, filter.getValue().toLowerCase());
             case MAIOR ->
-                    builder.greaterThan(builder.lower(builder.toString(columnName)), (Comparable) filter.getValue().toLowerCase());
+                    builder.greaterThan(columnName, (Comparable) filter.getValue().toLowerCase());
             case MENOR ->
-                    builder.lessThan(builder.lower(builder.toString(columnName)), (Comparable) filter.getValue().toLowerCase());
+                    builder.lessThan(columnName, (Comparable) filter.getValue().toLowerCase());
             case MAIOR_IGUAL ->
-                    builder.greaterThanOrEqualTo(builder.lower(builder.toString(columnName)), (Comparable) filter.getValue().toLowerCase());
+                    builder.greaterThanOrEqualTo(columnName, (Comparable) filter.getValue().toLowerCase());
             case MENOR_IGUAL ->
-                    builder.lessThanOrEqualTo(builder.lower(builder.toString(columnName)), (Comparable) filter.getValue().toLowerCase());
+                    builder.lessThanOrEqualTo(columnName, (Comparable) filter.getValue().toLowerCase());
             case DIFERENTE ->
-                    builder.notEqual(builder.lower(builder.toString(columnName)), filter.getValue().toLowerCase());
+                    builder.notEqual(columnName, filter.getValue().toLowerCase());
             case CONTEM ->
-                    builder.like(builder.lower(builder.toString(columnName)), "%" + filter.getValue().toLowerCase() + "%");
+                    builder.like(columnName, "%" + filter.getValue().toLowerCase() + "%");
             case NAO_CONTEM ->
-                    builder.notLike(builder.lower(builder.toString(columnName)), "%" + filter.getValue().toLowerCase() + "%");
-            case NULO -> builder.isNull(builder.lower(builder.toString(columnName)));
-            case NAO_NULO -> builder.isNotNull(builder.lower(builder.toString(columnName)));
+                    builder.notLike(columnName, "%" + filter.getValue().toLowerCase() + "%");
+            case NULO -> builder.isNull(columnName);
+            case NAO_NULO -> builder.isNotNull(columnName);
         };
     }
 }

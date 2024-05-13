@@ -4,11 +4,14 @@ import com.gabbriellps.jpa.specification.api.dto.request.FilterRequestDTO;
 import com.gabbriellps.jpa.specification.api.model.Company;
 import com.gabbriellps.jpa.specification.api.repository.CompanyRepository;
 import com.gabbriellps.jpa.specification.api.service.interfaces.CompanyService;
+import com.gabbriellps.jpa.specification.api.util.PaginationHelper;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +51,11 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public List<Company> findCompanyDynamicSpecification(FilterRequestDTO requestDTO) {
         return repository.findAll(DynamicSpecifications.searchFilters(requestDTO.getSearchRequestDTO()));
+    }
+
+    @Override
+    public Page<Company> findCompanyDynamicSpecificationPaginado(FilterRequestDTO requestDTO, Pageable pageable) {
+        return PaginationHelper.getPagination(findCompanyDynamicSpecification(requestDTO), pageable);
     }
 
 
